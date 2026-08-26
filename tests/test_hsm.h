@@ -231,7 +231,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 	}
 	SUBCASE("Test dispatch() inside _enter()") {
 		state_beta->connect("entered",
-							callable_mp_static(_on_enter_dispatch).bind(state_beta, "event_two"));
+				callable_mp_static(_on_enter_dispatch).bind(state_beta, "event_two"));
 		hsm->dispatch("event_one");
 		REQUIRE(hsm->get_active_state() == state_alpha);
 		CHECK(alpha_entries->num_callbacks == 2);
@@ -245,7 +245,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 		const int DATA = 25;
 		Variant cargo = DATA;
 		state_beta->connect("entered",
-							callable_mp_static(_on_enter_get_cargo).bind(state_beta, cargo));
+				callable_mp_static(_on_enter_get_cargo).bind(state_beta, cargo));
 		hsm->dispatch("event_one", cargo);
 		REQUIRE(hsm->get_active_state() == state_beta);
 		CHECK(state_beta->get_cargo() == Variant()); // * cargo was cleared, null object is returned
@@ -254,7 +254,7 @@ TEST_CASE("[Modules][LimboAI] HSM") {
 	SUBCASE("Test setting initial_state on enter") {
 		// Setting initial state on HSM enter should be allowed.
 		nested_hsm->connect("entered",
-							callable_mp_static(_on_enter_set_initial_state).bind(nested_hsm, state_delta));
+				callable_mp_static(_on_enter_set_initial_state).bind(nested_hsm, state_delta));
 		hsm->dispatch("goto_nested");
 		REQUIRE(hsm->get_active_state() == nested_hsm);
 		REQUIRE(nested_hsm->get_active_state() == state_delta);
